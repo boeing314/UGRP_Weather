@@ -8,7 +8,7 @@ import os
 from conversion_function import year_conv, time_conv, compute_humidity_ratio
 
 # --- Configuration ---
-DATA_FILE = 'data_new.csv'
+DATA_FILE = 'dataset.csv'
 MODEL_PATH = 'lstm_weather_model_best.pth'
 PARAMS_PATH = 'lstm_params_best.pkl'
 TEST_RESULTS_PATH = 'lstm_predictions.csv'
@@ -164,3 +164,4 @@ results_df.to_csv(TEST_RESULTS_PATH, index=False)
 print(f"Successfully saved test predictions to '{TEST_RESULTS_PATH}'.")
 
 print(results_df.head())
+
