@@ -11,9 +11,9 @@ from sklearn.multioutput import MultiOutputRegressor
 from gen_funct import year_conv, time_conv, compute_humidity_ratio
 
 # --- Configuration ---
-DATA_FILE = 'data_new.csv'
+DATA_FILE = 'dataset.csv'
 STACKING_MODEL_PATH = 'lstm_stacking_meta_model.pkl'
-RESULTS_CSV_PATH = 'lstm_stacking_test_results.csv'
+RESULTS_CSV_PATH = 'lstm_multiscale_testdata_pred.csv'
 BATCH_SIZE = 32
 
 device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
@@ -175,4 +175,5 @@ for i, col_name in enumerate(target_columns):
 results_df = pd.DataFrame(results_data)
 results_df.to_csv(RESULTS_CSV_PATH, index=False)
 print(f"Predictions saved to {RESULTS_CSV_PATH}")
+
 print(results_df.head())
