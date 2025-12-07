@@ -10,17 +10,15 @@ from sklearn.model_selection import TimeSeriesSplit
 from sklearn.linear_model import Ridge
 from sklearn.multioutput import MultiOutputRegressor
 import optuna
-
-# Import necessary functions from your existing file
-from gen_funct import year_conv, time_conv, compute_humidity_ratio 
+from conversion_function import year_conv, time_conv, compute_humidity_ratio
 
 # --- Configuration ---
-DATA_FILE = 'data_new.csv'
+DATA_FILE = 'dataset.csv'
 STACKING_SAVE_PATH = 'lstm_stacking_meta_model.pkl' 
 OPTUNA_DB_PATH = 'sqlite:///optuna_stacking_study.db'
 
-# >>> IMPORTANT: Update this list with the intervals you actually trained <<<
-TRAINED_HOUR_INTERVALS = [1, 24, 48] 
+# Update this list with the intervals you actually trained 
+TRAINED_HOUR_INTERVALS = [1, 24, 48, 72] 
 
 # Cross-Validation Settings
 N_SPLITS = 4
@@ -202,4 +200,5 @@ if __name__ == "__main__":
             'mean_val': mean_val, # Saving scaling params for prediction script
             'std_val': std_val
         }, f)
+
     print(f"Meta-model saved to {STACKING_SAVE_PATH}")
