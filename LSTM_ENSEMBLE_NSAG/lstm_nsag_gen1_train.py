@@ -16,7 +16,7 @@ print("Loading data from CSV...")
 
 # 1. Load the CSV file using Pandas
 try:
-    df1 = pd.read_csv('data_new.csv')
+    df1 = pd.read_csv('dataset.csv')
 except FileNotFoundError:
     print("Error: 'dataset.csv' not found.")
 else:
@@ -129,7 +129,7 @@ for index, row in df_1.iterrows():
         optimizer = torch.optim.Adam(model.parameters(), learning_rate, weight_decay=0)
     
         model.train()
-        for epoch in range(15):
+        for epoch in range(40):
             for batch_x, batch_y in train_loader:
                 batch_x, batch_y = batch_x.to(device), batch_y.to(device)
                 optimizer.zero_grad()
@@ -170,3 +170,4 @@ for index, row in df_1.iterrows():
         print([hidden_size,num_layers,dropout,seq_length,avg_loss])
         print("added data to file")
 print('Initial LSTMS GENERATED')
+
