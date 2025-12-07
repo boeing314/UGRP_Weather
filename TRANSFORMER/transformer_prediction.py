@@ -6,19 +6,15 @@ import numpy as np
 import pickle
 import os
 import math
-
-# --- Import helper functions ---
 from conversion_function import year_conv, time_conv, compute_humidity_ratio
 
 # --- Configuration ---
-DATA_FILE = 'data_new.csv'
+DATA_FILE = 'dataset.csv'
 MODEL_DIR = 'transformer_single'
 OUTPUT_FILE = 'transformer_predictions.csv'
 BATCH_SIZE = 64
 
-# PREDICTION SETTING
-# 0.15 = Predict only the last 15% (the unseen test set)
-# 0.0  = Predict everything possible (from row [seq_len] to the end)
+# Predict only the last 15% (the unseen test set)
 TEST_SPLIT_RATIO = 0.15 
 
 device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
@@ -202,4 +198,5 @@ for col in target_cols:
 # Save
 final_output.to_csv(OUTPUT_FILE, index=False)
 print(f"\nSuccess! Predictions saved to: {OUTPUT_FILE}")
+
 print(final_output.head())
