@@ -7,19 +7,17 @@ import numpy as np
 import optuna
 import pickle
 import os
-
-# --- Import your helper functions ---
 from conversion_function import year_conv, time_conv, compute_humidity_ratio
 
 # --- Configuration ---
-DATA_FILE = 'data_new.csv'
+DATA_FILE = 'dataset.csv'
 SAVE_DIR = 'itransformer_models'
 os.makedirs(SAVE_DIR, exist_ok=True)
 
 # Tuning Settings
-N_TRIALS = 1
-EPOCHS_PER_TRIAL = 1
-FINAL_EPOCHS = 1
+N_TRIALS = 100
+EPOCHS_PER_TRIAL = 100
+FINAL_EPOCHS = 200
 BATCH_SIZE = 64
 
 device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
@@ -308,4 +306,5 @@ if __name__ == "__main__":
     with open(os.path.join(SAVE_DIR, 'itransformer_config.pkl'), 'wb') as f:
         pickle.dump(config, f)
         
+
     print(f"Done. Model saved to {save_path}")
