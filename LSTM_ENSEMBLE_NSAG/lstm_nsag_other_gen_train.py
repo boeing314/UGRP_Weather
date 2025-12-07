@@ -5,7 +5,8 @@ import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, Subset
 import numpy as np
 from sklearn.model_selection import TimeSeriesSplit
-from gen_funct import merge_file, reduce_size, new_child, update_file, year_conv, time_conv, compute_humidity_ratio
+from conversion_function import year_conv, time_conv, compute_humidity_ratio
+from nsag_functions import merge_file, reduce_size, new_child, update_file
 
 
 
@@ -15,7 +16,7 @@ print("Loading data from CSV...")
 
 # 1. Load the CSV file using Pandas
 try:
-    df1 = pd.read_csv('data_new.csv')
+    df1 = pd.read_csv('dataset.csv')
 except FileNotFoundError:
     print("Error: 'dataset.csv' not found.")
 else:
@@ -78,17 +79,14 @@ class LSTMModel(nn.Module):
         return out
 
 
-for gen_idx in range(20,50):
+for gen_idx in range(1,51):
     child_count=0
     par_file=f'parent{gen_idx}.csv'
     chd_file=f'child{gen_idx}.csv'
     next_par_file=f'parent{gen_idx+1}.csv'
-    if gen_idx==11:
-        child_count=16
-    else:
-        df = pd.DataFrame(columns=['hidden_size','num_layers','dropout','seq_length','avg_loss'])
-        df.to_csv(chd_file, index=False)
-    while child_count!=17:
+    df = pd.DataFrame(columns=['hidden_size','num_layers','dropout','seq_length','avg_loss'])
+    df.to_csv(chd_file, index=False)
+    while child_count!=30:
         child_LSTM_feat=new_child(par_file)
         if child_LSTM_feat==[]:
             break
@@ -207,3 +205,4 @@ for gen_idx in range(20,50):
     merge_file(chd_file,par_file,next_par_file)
     update_file(next_par_file,next_par_file)
     reduce_size(next_par_file)
+
