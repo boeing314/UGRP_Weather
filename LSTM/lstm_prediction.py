@@ -5,8 +5,6 @@ from torch.utils.data import Dataset, DataLoader, Subset
 import numpy as np
 import pickle
 import os
-
-# Import necessary functions (ensure gen_funct.py is in the directory)
 from conversion_function import year_conv, time_conv, compute_humidity_ratio
 
 # --- Configuration ---
@@ -41,7 +39,7 @@ mean_val = params['mean_val']
 std_val = params['std_val']
 target_indices = [feature_columns.index(col) for col in target_columns]
 
-# --- 2. Define Classes (Must match training script exactly) ---
+# --- 2. Define Classes  ---
 
 class TimeSeriesDataset(Dataset):
     def __init__(self, data, seq_length, target_indices):
@@ -72,7 +70,6 @@ class LSTMModel(nn.Module):
         return out
 
 # --- 3. Data Loading and Preprocessing ---
-# (We must replicate the exact preprocessing steps used in training)
 print("Loading and preprocessing data...")
 df1 = pd.read_csv(DATA_FILE)
 
@@ -165,4 +162,5 @@ print(f"Test Set MSE (Scaled): {mse_loss:.6f}")
 
 results_df.to_csv(TEST_RESULTS_PATH, index=False)
 print(f"Successfully saved test predictions to '{TEST_RESULTS_PATH}'.")
+
 print(results_df.head())
