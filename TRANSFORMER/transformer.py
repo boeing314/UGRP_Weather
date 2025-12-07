@@ -8,19 +8,17 @@ import optuna
 import pickle
 import os
 import math
-
-# --- Import your helper functions ---
-from gen_funct import year_conv, time_conv, compute_humidity_ratio
+from conversion_function import year_conv, time_conv, compute_humidity_ratio
 
 # --- Configuration ---
-DATA_FILE = 'data_new.csv'
+DATA_FILE = 'dataset.csv'
 SAVE_DIR = 'transformer_single'
 os.makedirs(SAVE_DIR, exist_ok=True)
 
 # Tuning Settings
-N_TRIALS = 25          # How many hyperparameter combinations to try
-EPOCHS_PER_TRIAL = 15   # Epochs for tuning (keep low for speed)
-FINAL_EPOCHS = 60       # Epochs for the final best model
+N_TRIALS = 100          # How many hyperparameter combinations to try
+EPOCHS_PER_TRIAL = 100   # Epochs for tuning (keep low for speed)
+FINAL_EPOCHS = 200       # Epochs for the final best model
 BATCH_SIZE = 64
 
 device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
@@ -146,7 +144,7 @@ def objective(trial):
     # Transformer Architecture
     # Note: d_model must be divisible by nhead
     nhead = trial.suggest_categorical('nhead', [2, 4])
-    d_model_multiplier = trial.suggest_int('d_model_mult', 8, 32) # e.g., 4 * 16 = 64
+    d_model_multiplier = trial.suggest_int('d_model_mult', 8, 32) 
     d_model = nhead * d_model_multiplier
     
     num_layers = trial.suggest_int('num_layers', 1, 4)
@@ -318,5 +316,6 @@ if __name__ == "__main__":
     
     with open(os.path.join(SAVE_DIR, 'transformer_config.pkl'), 'wb') as f:
         pickle.dump(config_to_save, f)
+
 
     print(f"\nTraining Complete. Model saved to {save_path}")
