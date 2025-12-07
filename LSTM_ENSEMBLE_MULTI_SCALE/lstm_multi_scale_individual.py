@@ -8,18 +8,14 @@ from sklearn.model_selection import TimeSeriesSplit
 import optuna
 import pickle
 import os
-
-# Ensure gen_funct.py is available in the same directory
 from conversion_function import year_conv, time_conv, compute_humidity_ratio
 
 # --- Configuration ---
 
 # HOUR_INTERVAL: The step size between data points in the sequence.
-# 1 = Continuous hours (t, t+1, t+2...)
-# 24 = Same hour every day (t, t+24, t+48...)
 HOUR_INTERVAL = 1 
 
-DATA_FILE = 'data_new.csv'
+DATA_FILE = 'dataset.csv'
 # Append interval to filenames to distinguish between different time-step models
 MODEL_SAVE_PATH = f'lstm_weather_model_best_{HOUR_INTERVAL}h.pth'
 PARAMS_SAVE_PATH = f'lstm_params_best_{HOUR_INTERVAL}h.pkl'
@@ -40,11 +36,11 @@ PATIENCE = 10
 MIN_DELTA = 1e-4 
 
 # Optuna parameters
-N_TRIALS = 50 
-NUM_EPOCHS_TUNING = 60 
+N_TRIALS = 100
+NUM_EPOCHS_TUNING = 100
 
 # Final model training
-NUM_EPOCHS_FINAL = 100 
+NUM_EPOCHS_FINAL = 200
 
 # --- Device Setup ---
 device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
@@ -387,5 +383,6 @@ if __name__ == "__main__":
     
     with open(PARAMS_SAVE_PATH, 'wb') as f:
         pickle.dump(best_model_params, f)
+
 
     print("Training complete. All artifacts saved.")
