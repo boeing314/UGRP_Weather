@@ -8,7 +8,7 @@ import os
 from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import Ridge # Required for loading pickle
 from sklearn.multioutput import MultiOutputRegressor
-from gen_funct import year_conv, time_conv, compute_humidity_ratio
+from conversion_function import year_conv, time_conv, compute_humidity_ratio
 
 # --- Configuration ---
 DATA_FILE = 'dataset.csv'
@@ -177,3 +177,4 @@ results_df.to_csv(RESULTS_CSV_PATH, index=False)
 print(f"Predictions saved to {RESULTS_CSV_PATH}")
 
 print(results_df.head())
+
