@@ -12,7 +12,7 @@ import os
 from conversion_function import year_conv, time_conv, compute_humidity_ratio
 
 # --- Configuration ---
-DATA_FILE = 'data_new.csv'
+DATA_FILE = 'dataset.csv'
 MODEL_SAVE_PATH = 'lstm_weather_model_best.pth'
 PARAMS_SAVE_PATH = 'lstm_params_best.pkl'
 CV_LOSSES_SAVE_PATH = 'cv_mse_losses_best_params.csv'
@@ -32,11 +32,11 @@ PATIENCE = 10
 MIN_DELTA = 1e-4 
 
 # Optuna tuning parameters
-N_TRIALS = 1 
-NUM_EPOCHS_TUNING = 60 
+N_TRIALS = 100
+NUM_EPOCHS_TUNING = 100 
 
 # Final model training after tuning
-NUM_EPOCHS_FINAL = 100 
+NUM_EPOCHS_FINAL = 200 
 
 # --- Device Configuration ---
 device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
@@ -442,5 +442,6 @@ if __name__ == "__main__":
     print(f"Saving best model parameters to {PARAMS_SAVE_PATH}...")
     with open(PARAMS_SAVE_PATH, 'wb') as f:
         pickle.dump(best_model_params_to_save, f)
+
 
     print("All final deployment model artifacts saved successfully.")
